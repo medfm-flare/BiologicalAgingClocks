@@ -1,0 +1,39 @@
+Type: Package
+Package: methylCIPHER
+Title: A Methylation Clock Investigational Package for Hypothesis-Driven
+    Evaluation & Research
+Version: 0.2.0
+Author: person(given = "Kyra L.", family = "Thrush", email =
+    "kyra.thrush@yale.edu",role = c("aut","cre"))
+Maintainer: Kyra Thrush <kyra.thrush@yale.edu>
+Description: Code to easily calculate nearly all of the CpG-based
+    epigenetic clocks currently in circulation locally, in just one place.
+License: What license is it under?
+Depends: 
+    R (>= 3.5)
+biocViews:
+Imports:
+    checkmate,
+    DunedinPoAm38 (>= 0.1.0),
+    methods,
+    prcPhenoAge (>= 0.1.0),
+    qs2
+Suggests:
+    devtools,
+    fs,
+    googledrive,
+    gradethis (>= 0.2.10.9000),
+    learnr,
+    rlang,
+    testthat (>= 3.0.0),
+    zen4R
+Remotes: 
+    danbelsky/DunedinPoAm38,
+    MorganLevineLab/prcPhenoAge,
+    rstudio/gradethis,
+    rstudio/learnr
+Config/testthat/edition: 3
+Encoding: UTF-8
+LazyData: true
+Roxygen: list(markdown = TRUE)
+Config/roxygen2/version: 8.0.0

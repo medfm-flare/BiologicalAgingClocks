@@ -1,0 +1,26 @@
+# /etc/systemd/system/clockbase.service
+
+[Unit]
+Description=ClockBase
+After=network.target
+
+[Service]
+Type=simple
+User=dglubokov
+Group=dglubokov
+WorkingDirectory=/Entropy/dglubokov/clockbase/backend
+Environment="PATH=/usr/bin:/usr/local/bin"
+ExecStart=/Entropy/dglubokov/clockbase/backend/.venv/bin/python main.py
+Restart=always
+RestartSec=10
+
+# Logging
+StandardOutput=append:/var/log/clockbase/output.log
+StandardError=append:/var/log/clockbase/error.log
+
+# Safety
+NoNewPrivileges=true
+PrivateTmp=true
+
+[Install]
+WantedBy=multi-user.target

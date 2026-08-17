@@ -1,0 +1,116 @@
+---
+title: "pred_mort"
+author: "Eric Klopack"
+date: "`r Sys.Date()`"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+suppressPackageStartupMessages({
+library(tidyverse)
+library(glmnet)
+library(lubridate)
+})
+```
+
+```{r}
+set.seed(1234)
+foldid = sample(rep(seq(5), length = length(Y_train)))
+
+# This creates a loop to try several alpha values from 0 (ridge) to 1 (lasso)
+for(i in seq(0, 1, len = 11)^3){
+print('Running Alpha:')
+print(i)
+
+cv.out_r <- cv.glmnet(X_train, Y_train, alpha = i, foldid = foldid, 
+                      family = "cox", trace.it = 1)
+
+
+
+print(i)
+print(cv.out_r)
+
+# Extract the 'best' lambda
+best.lambda_r <- cv.out_r$lambda.min
+mse <- min(cv.out_r$cvm)
+
+
+if (i == 0){
+  fits <- tibble(alpha = i, 
+                 lambda = best.lambda_r, 
+                 mse = mse)
+} else {
+  fits <- fits %>% 
+    bind_rows(tibble(alpha = i, 
+                     lambda = best.lambda_r, 
+                     mse = mse))
+}
+gc()
+}
+
+# Table with all the fit statistics
+fits
+
+# Sort and select the best alpha and lambda based on mse
+fits <- fits[order(fits$mse),]
+
+best.alpha_r <- fits[1,1]
+best.alpha_r <- best.alpha_r$alpha
+best.alpha_r
+
+best.lambda_r <- fits[1,2]
+best.lambda_r <- best.lambda_r$lambda
+best.lambda_r
+```
+
+Best alpha = 1
+Best Lambda = 0.0198
+
+```{r}
+set.seed(1234)
+
+
+lasso_final <- glmnet(x = X_train, y = Y_train, alpha = best.alpha_r, 
+                    lambda = best.lambda_r, family = "cox")
+coef <- coef(lasso_final)
+coef <- coef[order(coef[,1]),]
+coef <- coef[coef != 0]
+coef
+
+lasso.pred.prob.train <- predict(lasso_final, newx = X_train, 
+                                 s = best.lambda_r,
+                                 alpha = best.alpha_r)
+mean(train$page)
+sd(train$page)
+mean(lasso.pred.prob.train)
+sd(lasso.pred.prob.train)
+
+sd(train$page) / 
+    as.double(sd(lasso.pred.prob.train))
+
+mean(-18.07571 + lasso.pred.prob.train * 10.02709)
+sd(-18.07571 + lasso.pred.prob.train * 10.02709)
+
+mean(train$page, na.rm = T) - mean(lasso.pred.prob.train * 10.02709)
+
+train_pred <- -18.07571 + lasso.pred.prob.train * 10.02709
+assess.glmnet(lasso_final, newx = X_train, newy = Y_train)
+temp <- survival::coxph(Y_train ~ train_pred)
+
+
+lasso.pred.prob <- predict(lasso_final, newx = X_test)
+
+assess.glmnet(lasso_final, newx = X_test, newy = Y_test)
+survival::coxph(Y_test ~ lasso.pred.prob)
+
+
+lasso.pred.prob <- -18.07571 + lasso.pred.prob * 10.02709
+
+mean(lasso.pred.prob)
+sd(lasso.pred.prob)
+```
+

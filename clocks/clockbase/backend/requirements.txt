@@ -1,0 +1,10 @@
+statsmodels
+scipy
+fastapi
+pandas
+uvicorn
+seaborn
+loguru
+python-multipart
+pyarrow
+pydantic-settings

@@ -1,0 +1,62 @@
+# Install packages
+pip install organage
+pip install seaborn
+pip install numpy
+pip install matplotlib
+pip install scipy
+pip install os
+pip install scikit-learn==1.0.2
+
+# Load packages
+from organage import OrganAge
+import pandas as pd
+import matplotlib.pyplot as plt
+import seaborn as sns
+import statsmodels.api as sm
+from scipy.interpolate import interp1d
+from scipy import stats
+import numpy as np
+import os
+import sklearn
+
+# Set working directory
+os.chdir(‘[PATH]’)
+
+# Load proteomics dataframe
+df_prot = pd.read_csv("prot_final.csv")
+
+# Clean proteomics dataframe
+df_prot["ID"] = df_prot["ID"].apply(lambda x: str(x).replace('.0', ''))
+df_prot = df_prot.set_index("ID")
+df_prot.columns = df_prot.columns.str.replace('.', '-')
+df_prot = df_prot.sort_values(by='ID')
+
+# Check proteomics dataframe
+df_prot
+
+# Load age & sex dataframe
+md_hot = pd.read_csv("meta_final.csv")
+
+# Clean age & sex dataframe
+md_hot = md_hot.set_index("ID")
+md_hot = md_hot.sort_values(by='ID')
+
+# Check age & sex dataframe
+md_hot
+
+# Put IDs in same format
+df_prot.index = df_prot.index.astype(str).str.strip()
+md_hot.index = md_hot.index.astype(str).str.strip()
+shared_ids = df_prot.index.intersection(md_hot.index)
+print(f"shared_ids:{len(shared_ids)}")
+
+# Calculate organ ages
+data = OrganAge.CreateOrganAgeObject()
+data.add_data(md_hot, df_prot)
+data.normalize(assay_version="v4.1")
+res = data.estimate_organ_ages()
+res
+
+# Write output to CSV
+res.to_csv(‘[PATH]’, index=True)
+

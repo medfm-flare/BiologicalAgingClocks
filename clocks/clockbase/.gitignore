@@ -1,0 +1,13 @@
+data
+data_old
+logs
+
+__pycache__
+.venv
+
+node_modules
+dist
+
+.DS_Store
+
+.env

@@ -1,0 +1,16 @@
+27k_reference: probeAnnotation21kdatMethUsed
+CBL_common: coefs
+CBL_specific: coefs
+Cortex_common: coefs
+DunedinPACE: coefs gold_standard_means
+HannumG2013: coefs
+HorvathS2013: coefs
+HorvathS2018: coefs
+LevineM2018: coefs
+LuA2019: coefs
+McEwenL2019: coefs
+ShirebyG2020: coefs
+YangZ2016: epiTOCcpgs
+ZhangQ2019: coefs
+ZhangY2017: coefs
+subGSE174422: betas info
