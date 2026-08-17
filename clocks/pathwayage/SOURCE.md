@@ -9,5 +9,9 @@
   pathway-level epigenetic clock: insights from multi-cohort validation."
   *eBioMedicine* 118, 105829 (2025). https://doi.org/10.1016/j.ebiom.2025.105829
 
+This is a Python-only vendored copy. One analysis script under
+"2-Aging Associated Pathways and Modules/" has no implementation here; the
+package's core pipeline (14 `.py`/`.ipynb` files) is unaffected.
+
 Direct copy at the commit above, git history stripped. To update, re-clone
 upstream at a newer commit and replace this directory.

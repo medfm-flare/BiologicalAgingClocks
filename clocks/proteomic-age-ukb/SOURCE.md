@@ -15,5 +15,11 @@ Use `clocks/organage/` (Oh et al. 2023) as the working organ-clock
 implementation for this table row; this repo is here for reference/methods
 reproduction, not as a runnable clock out of the box.
 
+This is a Python-only vendored copy. Data import/recoding/cleaning scaffolding
+present upstream is not included here; the actual ProtAge model code
+(`code/UKB-proteomic-age-model-*.py`, `lgbm_functions.py`,
+`UKB-ProtAge20-*.py`) is pure Python and intact. As noted above, this was
+already analysis/reference code, not a runnable clock (no released weights).
+
 Direct copy at the commit above, git history stripped. To update, re-clone
 upstream at a newer commit and replace this directory.

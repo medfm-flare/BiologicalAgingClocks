@@ -3,17 +3,10 @@
 - **Paper**: Zhang, Y. et al. "DNA methylation signatures in peripheral blood
   strongly predict all-cause mortality." *Nat. Commun.* 8, 14617 (2017).
   https://doi.org/10.1038/ncomms14617
-- **Implementation**: no standalone repo; provided by vendored multi-clock packages.
+- **Implementation**: provided by the vendored [`../biolearn/`](../biolearn/)
+  package.
 
-## Option A - `methylcipher` (R)
-
-```r
-devtools::load_all("../methylcipher")
-# DNAm: rows = samples, columns = CpGs (opposite orientation from methylclock)
-result <- calcZhang(DNAm, pheno, imputation = TRUE)
-```
-
-## Option B - `biolearn` (Python)
+## Usage (Python)
 
 ```python
 from biolearn.model_gallery import ModelGallery
